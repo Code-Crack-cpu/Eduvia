@@ -9,6 +9,13 @@ export default defineConfig({
     host: '127.0.0.1',
     port: 5173,
     strictPort: true,
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:3001',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
     headers: {
       'X-Content-Type-Options': 'nosniff',
       'X-Frame-Options': 'DENY',
@@ -28,6 +35,7 @@ export default defineConfig({
     },
   },
   build: {
+    sourcemap: false, // Prevent source map exposure in production bundles
     rollupOptions: {
       output: {
         manualChunks: {

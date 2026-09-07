@@ -1,4 +1,7 @@
-import { WaitlistSubmission } from '../types';
+/**
+ * Client-Side Input Sanitization & Pre-flight Validation
+ * (Note: Server-side validation in server/validator.ts is the authoritative source of truth)
+ */
 
 /**
  * Strips HTML tags, script entities, control characters, and enforces character bounds.
@@ -14,7 +17,7 @@ export function sanitizeInput(input: string, maxLength = 120): string {
 }
 
 /**
- * Validates a human name: only alphabets, spaces, hyphens, and apostrophes.
+ * Pre-validates a human name: only alphabets, spaces, hyphens, dots, and apostrophes.
  * Length must be between 2 and 60 characters.
  */
 export function validateHumanName(name: string): { valid: boolean; error?: string } {
@@ -64,83 +67,4 @@ export function validateEmail(email: string): { valid: boolean; error?: string }
   }
 
   return { valid: true };
-}
-
-/**
- * Client-side rate limiter to prevent form flooding, spamming, or DoS scripting.
- * Allows at most `maxAttempts` in `windowSeconds`.
- */
-const RATE_LIMIT_KEY = 'eduvia_waitlist_attempts';
-const MAX_ATTEMPTS = 3;
-const WINDOW_SECONDS = 60;
-
-export function checkRateLimit(): { allowed: boolean; waitSeconds?: number } {
-  try {
-    const raw = sessionStorage.getItem(RATE_LIMIT_KEY);
-    const now = Date.now();
-    let timestamps: number[] = raw ? JSON.parse(raw) : [];
-
-    // Filter out timestamps outside the active window
-    timestamps = timestamps.filter((t) => now - t < WINDOW_SECONDS * 1000);
-
-    if (timestamps.length >= MAX_ATTEMPTS) {
-      const oldest = timestamps[0];
-      const waitSeconds = Math.ceil((WINDOW_SECONDS * 1000 - (now - oldest)) / 1000);
-      return { allowed: false, waitSeconds: Math.max(1, waitSeconds) };
-    }
-
-    return { allowed: true };
-  } catch {
-    return { allowed: true };
-  }
-}
-
-export function recordAttempt(): void {
-  try {
-    const raw = sessionStorage.getItem(RATE_LIMIT_KEY);
-    const now = Date.now();
-    let timestamps: number[] = raw ? JSON.parse(raw) : [];
-    timestamps = timestamps.filter((t) => now - t < WINDOW_SECONDS * 1000);
-    timestamps.push(now);
-    sessionStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(timestamps));
-  } catch {
-    // Ignore storage issues
-  }
-}
-
-/**
- * Safely parses and sanitizes user data from localStorage.
- * Prevents DOM injection if localStorage was manipulated in DevTools.
- */
-export function safeGetStoredWaitlist(): (WaitlistSubmission & { queueNumber: number }) | null {
-  try {
-    const raw = localStorage.getItem('eduvia_waitlist_user');
-    if (!raw) return null;
-
-    const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== 'object') return null;
-
-    const queueNumber = Number(parsed.queueNumber);
-    if (isNaN(queueNumber) || queueNumber < 1 || queueNumber > 999999) return null;
-
-    const exam = parsed.exam === 'JEE' ? 'JEE' : 'NEET';
-    const fullName = sanitizeInput(String(parsed.fullName || ''), 60);
-    const email = sanitizeInput(String(parsed.email || ''), 100);
-
-    return {
-      fullName,
-      email,
-      exam,
-      targetYear: sanitizeInput(String(parsed.targetYear || '2026'), 10),
-      currentClass: parsed.currentClass || 'Class 12',
-      queueNumber
-    };
-  } catch {
-    try {
-      localStorage.removeItem('eduvia_waitlist_user');
-    } catch {
-      // ignore
-    }
-    return null;
-  }
 }
