@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ClipboardCheck, Sparkles, Target, TrendingUp, ChevronRight, Check } from 'lucide-react';
+import { ClipboardCheck, Calendar, Target, Check, ChevronRight, ShieldCheck } from 'lucide-react';
 import { howItWorksSteps } from '../data/eduviaData';
 
 export const HowItWorks: React.FC = () => {
@@ -10,39 +10,35 @@ export const HowItWorks: React.FC = () => {
       case 0:
         return ClipboardCheck;
       case 1:
-        return Sparkles;
+        return Calendar;
       case 2:
         return Target;
       case 3:
       default:
-        return TrendingUp;
+        return ShieldCheck;
     }
   };
 
   return (
-    <section id="how-it-works" className="py-24 relative overflow-hidden bg-white border-t border-ink-100">
+    <section id="how-it-works" className="py-24 relative overflow-hidden bg-[#07090E] border-t border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent-50 border border-accent-100 text-accent-600 text-xs font-semibold mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>The 4-Step Learning Loop</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clean-pill text-xs font-semibold text-slate-300 mb-4">
+            <span>The Daily Study Loop</span>
           </div>
 
-          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-ink-900 tracking-tight leading-tight mb-6">
-            From diagnostic baseline to{' '}
-            <span className="text-navy-700">
-              exam-day mastery.
-            </span>
+          <h2 className="heading-section text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+            From baseline test to exam-day calm.
           </h2>
 
-          <p className="text-base sm:text-lg text-ink-500 leading-relaxed">
-            Eduvia transforms chaotic 14-hour study sessions into a systematic, compounding flywheel. Here is how your daily preparation evolves.
+          <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+            How Eduvia turns chaotic 14-hour study marathons into a structured, daily routine that targets your highest-yield score opportunities.
           </p>
         </div>
 
         {/* 4 Steps Timeline Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 max-w-5xl mx-auto">
           {howItWorksSteps.map((step, idx) => {
             const Icon = getStepIcon(idx);
             const isSelected = activeStep === idx;
@@ -51,49 +47,40 @@ export const HowItWorks: React.FC = () => {
               <div
                 key={step.number}
                 onClick={() => setActiveStep(idx)}
-                className={`cursor-pointer rounded-2xl p-6 transition-all duration-300 relative border ${
+                className={`cursor-pointer rounded-xl p-5 transition-all duration-200 border ${
                   isSelected
-                    ? 'bg-white border-navy-300 shadow-card-hover -translate-y-1.5'
-                    : 'bg-[#F8FAFC] border-ink-200 hover:border-navy-200 hover:bg-white hover:shadow-soft'
+                    ? 'bg-[#0E1424] border-indigo-500/60 shadow-lg'
+                    : 'bg-[#090D16] border-white/[0.06] hover:border-slate-700 hover:bg-[#0B101C]'
                 }`}
               >
-                {/* Step Number & Icon */}
-                <div className="flex items-center justify-between mb-4">
-                  <span
-                    className={`font-sans text-2xl font-black ${
-                      isSelected ? 'text-navy-500' : 'text-ink-300'
-                    }`}
-                  >
+                {/* Step Header */}
+                <div className="flex items-center justify-between mb-3">
+                  <span className={`font-mono text-xl font-bold ${isSelected ? 'text-indigo-400' : 'text-slate-600'}`}>
                     {step.number}
                   </span>
-                  <div
-                    className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
-                      isSelected
-                        ? 'bg-navy-700 text-white shadow-soft'
-                        : 'bg-ink-100 text-ink-400'
-                    }`}
-                  >
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs ${
+                    isSelected ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-400'
+                  }`}>
                     <Icon className="w-4 h-4" />
                   </div>
                 </div>
 
-                <div className="inline-block text-[11px] font-bold uppercase tracking-wider text-navy-500 mb-1.5">
+                <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-1">
                   {step.tag}
                 </div>
 
-                <h3 className="text-lg font-bold text-ink-900 mb-2">
+                <h3 className="text-base font-bold text-white mb-2">
                   {step.title}
                 </h3>
 
-                <p className="text-xs sm:text-sm text-ink-500 leading-relaxed mb-4">
+                <p className="text-xs text-slate-400 leading-relaxed mb-4">
                   {step.description}
                 </p>
 
-                {/* Sub features list */}
-                <div className="space-y-1.5 pt-2 border-t border-ink-100">
+                <div className="space-y-1.5 pt-3 border-t border-white/5">
                   {step.details.map((detail) => (
-                    <div key={detail} className="flex items-center gap-2 text-xs text-ink-600">
-                      <Check className="w-3.5 h-3.5 text-success-500 shrink-0" />
+                    <div key={detail} className="flex items-center gap-2 text-[11px] text-slate-300">
+                      <Check className="w-3 h-3 text-emerald-400 shrink-0" />
                       <span>{detail}</span>
                     </div>
                   ))}
@@ -103,35 +90,32 @@ export const HowItWorks: React.FC = () => {
           })}
         </div>
 
-        {/* Dynamic Detail Card for currently selected step */}
-        <div className="max-w-3xl mx-auto p-5 sm:p-6 rounded-2xl bg-[#F8FAFC] border border-ink-200 shadow-soft flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3 text-sm">
-            <div className="w-8 h-8 rounded-lg bg-navy-100 text-navy-600 flex items-center justify-center shrink-0 font-bold">
-              {howItWorksSteps[activeStep].number}
-            </div>
-            <div>
-              <span className="text-ink-400 text-xs">Currently Viewing:</span>
-              <p className="font-bold text-ink-800">
-                Phase {howItWorksSteps[activeStep].number}: {howItWorksSteps[activeStep].title} — {howItWorksSteps[activeStep].tagline}
-              </p>
-            </div>
+        {/* Interactive Step Navigator */}
+        <div className="max-w-3xl mx-auto p-4 rounded-xl bg-[#090D16] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-indigo-400 font-bold">
+              Step {howItWorksSteps[activeStep].number} of 04
+            </span>
+            <span className="text-slate-300 font-medium">
+              {howItWorksSteps[activeStep].title}: {howItWorksSteps[activeStep].tagline}
+            </span>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setActiveStep((prev) => (prev > 0 ? prev - 1 : 3))}
-              className="px-3 py-1.5 rounded-lg text-xs font-semibold text-ink-500 bg-white border border-ink-200 hover:bg-ink-50"
+              className="px-3 py-1 rounded bg-white/5 hover:bg-white/10 text-slate-300 transition-colors"
             >
               Previous
             </button>
             <button
               type="button"
               onClick={() => setActiveStep((prev) => (prev < 3 ? prev + 1 : 0))}
-              className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-navy-700 hover:bg-navy-600"
+              className="inline-flex items-center gap-1 px-3 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors"
             >
-              <span>Next Phase</span>
-              <ChevronRight className="w-3.5 h-3.5" />
+              <span>Next</span>
+              <ChevronRight className="w-3 h-3" />
             </button>
           </div>
         </div>

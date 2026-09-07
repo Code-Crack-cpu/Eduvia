@@ -1,77 +1,90 @@
 import React from 'react';
-import { Compass, Crosshair, TrendingUp, Flame, Award, Users, CheckCircle2 } from 'lucide-react';
-import { benefitsList } from '../data/eduviaData';
+import { Compass, Crosshair, TrendingUp, Flame, Award, Shield } from 'lucide-react';
 
 export const Benefits: React.FC = () => {
-  const getIcon = (iconName: string) => {
-    switch (iconName) {
-      case 'Compass':
-        return Compass;
-      case 'Crosshair':
-        return Crosshair;
-      case 'TrendingUp':
-        return TrendingUp;
-      case 'Flame':
-        return Flame;
-      case 'Award':
-        return Award;
-      case 'Users':
-      default:
-        return Users;
+  const benefits = [
+    {
+      icon: Compass,
+      title: 'Stop Morning Decision Paralysis',
+      description: 'Never waste the first 45 minutes of your morning wondering which reference book to open. Get a 3-task prioritized study queue calculated from yesterday’s test mistakes.',
+      metric: 'Zero Wasted Prep Time'
+    },
+    {
+      icon: Crosshair,
+      title: 'Eliminate the -1 Negative Bleed',
+      description: 'Most aspirants fail to crack cutoffs not because of hard questions, but because they lose 25 to 40 marks to reckless guesses on moderate questions. Eduvia trains risk judgment.',
+      metric: 'Save 25–40 Marks'
+    },
+    {
+      icon: TrendingUp,
+      title: 'NCERT Line-to-Question Bridge',
+      description: '90%+ of NEET Biology and Inorganic Chemistry comes straight from NCERT. Our diagnostic engine maps every practice question directly to its textbook paragraph.',
+      metric: '100% NCERT Alignment'
+    },
+    {
+      icon: Flame,
+      title: 'Anti-Burnout 45-Minute Cycles',
+      description: 'Studying 14 hours blindly leads to severe cognitive fatigue. Eduvia breaks your day into focused 45-minute problem-solving sprints with active recall intervals.',
+      metric: 'Sustainable Routine'
+    },
+    {
+      icon: Award,
+      title: 'Real NTA Exam CBT Parity',
+      description: 'Identical interface to the National Testing Agency computer-based test: question palette, marked-for-review tags, section timers, and negative-marking accounting.',
+      metric: 'Zero Exam Hall Surprise'
+    },
+    {
+      icon: Shield,
+      title: 'Break the Coaching Monopoly',
+      description: 'Tier-1 preparation should not require spending ₹2.5 Lakhs on Kota hostels. Eduvia brings institutional-grade diagnostic technology directly to your study desk.',
+      metric: 'Equitable & Accessible'
     }
-  };
+  ];
 
   return (
-    <section id="benefits" className="py-24 relative overflow-hidden bg-white border-t border-ink-100">
+    <section id="benefits" className="py-24 relative overflow-hidden bg-[#07090E] border-t border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-success-50 border border-success-200 text-success-600 text-xs font-semibold mb-4">
-            <CheckCircle2 className="w-3.5 h-3.5 text-success-500" />
-            <span>High-Yield Value</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clean-pill text-xs font-semibold text-slate-300 mb-4">
+            <span>Measurable Rank Impact</span>
           </div>
 
-          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-ink-900 tracking-tight leading-tight mb-6">
-            Engineered for rank gains,{' '}
-            <span className="text-navy-700">
-              built for student peace of mind.
-            </span>
+          <h2 className="heading-section text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+            Built for actual exam day score gains.
           </h2>
 
-          <p className="text-base sm:text-lg text-ink-500 leading-relaxed">
-            The NEET and JEE journey is an endurance marathon. Eduvia turns overwhelming 130-chapter syllabi into manageable, structured victories every single day.
+          <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+            Every feature in Eduvia is designed to solve a specific, recurring bottleneck Indian students face during the 18-month NEET and JEE preparation grind.
           </p>
         </div>
 
-        {/* 6 Benefit Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {benefitsList.map((benefit) => {
-            const Icon = getIcon(benefit.icon);
-
+        {/* 6 Benefit Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+          {benefits.map((b) => {
+            const Icon = b.icon;
             return (
               <div
-                key={benefit.title}
-                className="bg-white border border-ink-200 rounded-2xl p-7 hover:border-navy-200 transition-all duration-300 group hover:-translate-y-1 hover:shadow-card-hover relative flex flex-col justify-between shadow-soft"
+                key={b.title}
+                className="rounded-xl bg-[#0B0F19] border border-white/[0.07] p-6 flex flex-col justify-between hover:border-slate-700 transition-colors"
               >
                 <div>
-                  <div className="w-12 h-12 rounded-xl bg-navy-50 border border-navy-100 flex items-center justify-center mb-5 group-hover:scale-105 group-hover:bg-navy-100 transition-all">
-                    <Icon className="w-6 h-6 text-navy-500 group-hover:text-navy-600" />
+                  <div className="w-9 h-9 rounded-lg bg-slate-800/70 border border-white/10 flex items-center justify-center mb-4 text-slate-300">
+                    <Icon className="w-4 h-4" />
                   </div>
 
-                  <h3 className="text-xl font-bold text-ink-900 mb-2.5">
-                    {benefit.title}
+                  <h3 className="text-base font-bold text-white mb-2">
+                    {b.title}
                   </h3>
 
-                  <p className="text-sm text-ink-500 leading-relaxed">
-                    {benefit.description}
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                    {b.description}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-ink-100 flex items-center justify-between text-xs">
-                  <span className="text-ink-400">Core Impact:</span>
-                  <span className="font-semibold text-success-600 bg-success-50 px-2.5 py-1 rounded-md border border-success-200">
-                    {benefit.highlight}
-                  </span>
+                <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono">
+                  <span className="text-slate-500">Core Metric:</span>
+                  <span className="text-emerald-400 font-semibold">{b.metric}</span>
                 </div>
               </div>
             );

@@ -1,124 +1,112 @@
 import React from 'react';
-import { AlertOctagon, Check, X, BookX, Users, HelpCircle, Flame } from 'lucide-react';
+import { Users, FileText, Compass, HeartCrack, Check, X } from 'lucide-react';
 import { problemComparison } from '../data/eduviaData';
 
 export const Problem: React.FC = () => {
   const painPoints = [
     {
       icon: Users,
-      title: '150-Student Batch Factories',
-      description: 'Coaching centers cater to the top 2% toppers who already grasp concepts fast. If you get stuck on a tricky step, you are left behind with unasked doubts.',
-      badge: 'Lack of Personal Care'
+      title: 'The Row-15 Reality',
+      description: 'In a 160-student batch, faculty moves at the speed of the top 3 students sitting in front. If you have a doubt on step 4 of a kinematics derivation, you stay confused.',
+      highlight: '0% Personal Attention'
     },
     {
-      icon: BookX,
-      title: 'Scattered Resources & Module Chaos',
-      description: 'Aspirants juggle 8 different Telegram channels, 5 test series PDFs, and multiple YouTube teachers. You spend more time deciding what to study than actually solving problems.',
-      badge: 'Decision Paralysis'
+      icon: FileText,
+      title: 'Module Overwhelm & 2,000 Questions',
+      description: 'Coaching centers dump 150-page printed modules every week. You waste 3 hours solving redundant, low-yield problems instead of the 15 concepts NTA actually repeats.',
+      highlight: 'Hours Lost on Low-Yield'
     },
     {
-      icon: HelpCircle,
-      title: 'Blind Test Analytics',
-      description: 'Traditional mock tests give you a single blunt score (e.g. 110/300) with no diagnosis. Was it because of conceptual misunderstanding, calculation errors, or poor time distribution?',
-      badge: 'Zero Diagnostic Clarity'
+      icon: Compass,
+      title: 'The "Blunt Marksheet" Trap',
+      description: 'Your weekly test gives you a single number: "Physics: 36/100". It never diagnoses why. Did you pick trap options? Did you miscalculate signs? Or did you run out of time?',
+      highlight: 'Zero Diagnostic Insight'
     },
     {
-      icon: Flame,
-      title: 'Burnout & Emotional Anxiety',
-      description: 'Without clear visibility into daily progress, students study 12 hours a day while still feeling unprepared. This triggers chronic exam anxiety and score plateaus.',
-      badge: 'Chronic Fatigue'
+      icon: HeartCrack,
+      title: 'Prep Burnout & Mock Panic',
+      description: 'Studying 14 hours a day without measurable progress feedback creates intense exam panic. Aspirants doubt their capability when the fault was the factory teaching method.',
+      highlight: 'Anxiety & Score Plateaus'
     }
   ];
 
   return (
-    <section id="problem" className="py-24 relative overflow-hidden bg-white border-t border-ink-100">
+    <section id="problem" className="py-24 relative overflow-hidden bg-[#07090E] border-t border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-error-50 border border-error-200 text-error-600 text-xs font-semibold mb-4">
-            <AlertOctagon className="w-3.5 h-3.5" />
-            <span>The Reality of Competitive Prep</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clean-pill text-xs font-semibold text-rose-400 mb-4">
+            <span>Why 98% of Coaching Students Struggle</span>
           </div>
 
-          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-ink-900 tracking-tight leading-tight mb-6">
-            Generic coaching was never built for{' '}
-            <span className="text-navy-700">
-              individual brains.
-            </span>
+          <h2 className="heading-section text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+            The 6:00 AM Coaching Factory is Broken.
           </h2>
 
-          <p className="text-base sm:text-lg text-ink-500 leading-relaxed">
-            Every year, over 3.7 million students contest for medical and engineering seats. Yet most rely on rigid, one-size-fits-all coaching that treats every student like a standardized conveyor belt.
+          <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+            Every year, 3.7 million Indian students pay exorbitant fees for factory coaching centers that treat every student like a standardized conveyor belt. Here is the real reason scores plateau.
           </p>
         </div>
 
-        {/* 4 Pain Point Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+        {/* 4 Asymmetric Real Pain Point Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
           {painPoints.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.title}
-                className="bg-white border border-ink-200 rounded-2xl p-6 relative hover:border-error-200 transition-all duration-300 group hover:-translate-y-1 shadow-soft hover:shadow-card-hover"
+                className="rounded-xl bg-[#0B0F19] border border-white/[0.07] p-5 flex flex-col justify-between hover:border-slate-700 transition-colors"
               >
-                <div className="w-10 h-10 rounded-xl bg-error-50 border border-error-100 flex items-center justify-center mb-4 group-hover:bg-error-100 transition-colors">
-                  <Icon className="w-5 h-5 text-error-500" />
+                <div>
+                  <div className="w-9 h-9 rounded-lg bg-slate-800/80 border border-white/10 flex items-center justify-center mb-4 text-slate-300">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-base font-bold text-white mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
-                <div className="inline-block text-[11px] font-bold uppercase tracking-wider text-error-500 mb-2">
-                  {item.badge}
+
+                <div className="mt-5 pt-3 border-t border-white/5 text-[11px] font-mono text-rose-400">
+                  {item.highlight}
                 </div>
-                <h3 className="text-lg font-bold text-ink-900 mb-2.5">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-ink-500 leading-relaxed">
-                  {item.description}
-                </p>
               </div>
             );
           })}
         </div>
 
-        {/* Comparison Table: Traditional vs Eduvia */}
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-ink-900">
-              The Fundamental Shift: Factory Model vs. Adaptive Intelligence
-            </h3>
-            <p className="text-sm text-ink-400 mt-2">
-              Why high-intent aspirants are shifting from passive coaching lectures to active diagnostic systems.
-            </p>
+        {/* Comparison Table */}
+        <div className="max-w-4xl mx-auto rounded-2xl bg-[#0B0F19] border border-white/[0.08] overflow-hidden shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-12 bg-[#090D15] border-b border-white/10 text-xs font-semibold">
+            <div className="md:col-span-4 p-4 text-slate-400 font-mono uppercase tracking-wider">
+              Dimension
+            </div>
+            <div className="md:col-span-4 p-4 text-rose-400 border-t md:border-t-0 md:border-l border-white/10 flex items-center gap-1.5">
+              <X className="w-3.5 h-3.5 shrink-0" />
+              <span>Traditional Factory Coaching</span>
+            </div>
+            <div className="md:col-span-4 p-4 text-emerald-400 border-t md:border-t-0 md:border-l border-white/10 flex items-center gap-1.5">
+              <Check className="w-3.5 h-3.5 shrink-0" />
+              <span>Eduvia Adaptive System</span>
+            </div>
           </div>
 
-          <div className="rounded-2xl border border-ink-200 bg-white overflow-hidden shadow-card">
-            {/* Table Header */}
-            <div className="grid grid-cols-1 md:grid-cols-12 bg-ink-50 border-b border-ink-200 text-xs sm:text-sm font-semibold">
-              <div className="md:col-span-4 p-4 text-ink-500">Prep Dimension</div>
-              <div className="md:col-span-4 p-4 text-error-500 flex items-center gap-1.5 border-t md:border-t-0 md:border-l border-ink-200 bg-error-50/50">
-                <X className="w-4 h-4 text-error-400 shrink-0" />
-                <span>Traditional Coaching Model</span>
-              </div>
-              <div className="md:col-span-4 p-4 text-navy-700 flex items-center gap-1.5 border-t md:border-t-0 md:border-l border-ink-200 bg-navy-50/60">
-                <Check className="w-4 h-4 text-success-500 shrink-0" />
-                <span>Eduvia AI Learning Engine</span>
-              </div>
-            </div>
-
-            {/* Table Rows */}
-            <div className="divide-y divide-ink-100">
-              {problemComparison.map((row) => (
-                <div key={row.category} className="grid grid-cols-1 md:grid-cols-12 text-xs sm:text-sm">
-                  <div className="md:col-span-4 p-4 font-semibold text-ink-800 bg-ink-50/30">
-                    {row.category}
-                  </div>
-                  <div className="md:col-span-4 p-4 text-ink-500 border-t md:border-t-0 md:border-l border-ink-100 bg-error-50/20 leading-relaxed">
-                    {row.traditional}
-                  </div>
-                  <div className="md:col-span-4 p-4 text-navy-700 border-t md:border-t-0 md:border-l border-ink-100 bg-navy-50/30 font-medium leading-relaxed">
-                    {row.eduvia}
-                  </div>
+          <div className="divide-y divide-white/5">
+            {problemComparison.map((row) => (
+              <div key={row.category} className="grid grid-cols-1 md:grid-cols-12 text-xs sm:text-sm">
+                <div className="md:col-span-4 p-4 font-semibold text-slate-200 bg-white/[0.01]">
+                  {row.category}
                 </div>
-              ))}
-            </div>
+                <div className="md:col-span-4 p-4 text-slate-400 border-t md:border-t-0 md:border-l border-white/5 leading-relaxed">
+                  {row.traditional}
+                </div>
+                <div className="md:col-span-4 p-4 text-slate-100 border-t md:border-t-0 md:border-l border-white/5 font-medium leading-relaxed bg-indigo-950/[0.05]">
+                  {row.eduvia}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

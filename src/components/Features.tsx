@@ -1,254 +1,242 @@
-import React, { useState } from 'react';
-import { Route, Award, MessageSquareHeart, LineChart, Sparkles, CheckCircle, ArrowRight } from 'lucide-react';
-import { featuresList } from '../data/eduviaData';
+import React from 'react';
+import { Check, ArrowRight, BookOpen } from 'lucide-react';
 
 interface FeaturesProps {
   onOpenWaitlist: () => void;
 }
 
 export const Features: React.FC<FeaturesProps> = ({ onOpenWaitlist }) => {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const getIcon = (id: string) => {
-    switch (id) {
-      case 'learning-paths':
-        return Route;
-      case 'adaptive-mock-tests':
-        return Award;
-      case 'expert-mentorship':
-        return MessageSquareHeart;
-      case 'progress-tracking':
-      default:
-        return LineChart;
-    }
-  };
-
   return (
-    <section id="features" className="py-24 relative overflow-hidden bg-[#F8FAFC] border-t border-ink-100">
+    <section id="features" className="py-24 relative overflow-hidden bg-[#07090E] border-t border-white/[0.06]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-navy-50 border border-navy-100 text-navy-600 text-xs font-semibold mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Autonomous Intelligence Suite</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full clean-pill text-xs font-semibold text-indigo-300 mb-4">
+            <span>The Platform Core</span>
           </div>
 
-          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-ink-900 tracking-tight leading-tight mb-6">
-            Everything your preparation needs,{' '}
-            <span className="text-navy-700">
-              zero filler.
-            </span>
+          <h2 className="heading-section text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+            Engineered for rank yield, not coaching hours.
           </h2>
 
-          <p className="text-base sm:text-lg text-ink-500 leading-relaxed">
-            Four interconnected intelligent pillars designed to diagnose conceptual gaps, personalize daily problem sets, and guide you through exam day with absolute composure.
+          <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+            Four targeted diagnostic tools that replace generic test series and endless lecture binge-watching with active, measurable problem solving.
           </p>
         </div>
 
-        {/* Feature Tabs Selector */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 max-w-4xl mx-auto mb-12 p-1.5 rounded-2xl bg-white border border-ink-200 shadow-soft">
-          {featuresList.map((feature, idx) => {
-            const Icon = getIcon(feature.id);
-            const isActive = activeTab === idx;
-            return (
-              <button
-                key={feature.id}
-                type="button"
-                onClick={() => setActiveTab(idx)}
-                className={`flex items-center justify-center gap-2 px-3 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
-                  isActive
-                    ? 'bg-navy-800 text-white shadow-soft'
-                    : 'text-ink-400 hover:text-ink-600 hover:bg-ink-50'
-                }`}
-              >
-                <Icon className="w-4 h-4 shrink-0" />
-                <span className="truncate">{feature.title}</span>
-              </button>
-            );
-          })}
-        </div>
+        {/* ============================================================ */}
+        {/* ASYMMETRICAL BENTO GRID LAYOUT                               */}
+        {/* ============================================================ */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 max-w-5xl mx-auto">
+          {/* Bento 1 (Large - 7 cols): Negative Marking Autopsy */}
+          <div className="md:col-span-7 rounded-2xl bg-[#0B0F19] border border-white/[0.08] p-6 sm:p-7 flex flex-col justify-between hover:border-slate-700 transition-colors">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="px-2.5 py-1 rounded bg-rose-500/10 text-rose-300 text-xs font-mono font-medium border border-rose-500/20">
+                  Real NTA Marking Scheme (+4 / -1)
+                </span>
+                <span className="text-xs text-slate-500 font-mono">Mock Test 04</span>
+              </div>
 
-        {/* Active Feature Showcase */}
-        {(() => {
-          const current = featuresList[activeTab];
-          const Icon = getIcon(current.id);
+              <h3 className="text-xl font-bold text-white mb-2">
+                The Negative Marking Autopsy
+              </h3>
 
-          return (
-            <div className="max-w-5xl mx-auto rounded-2xl bg-white border border-ink-200 p-6 sm:p-10 shadow-card relative overflow-hidden">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                {/* Left Description Column (6 cols) */}
-                <div className="lg:col-span-6 space-y-6">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-50 border border-navy-100 text-navy-600 text-xs font-semibold">
-                    <Icon className="w-3.5 h-3.5" />
-                    <span>{current.badge}</span>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
+                Most students don't lose ranks on hard questions—they lose them on careless mistakes on easy ones. Eduvia calculates your exact negative marking bleed and trains your risk-judgment.
+              </p>
+
+              {/* Realistic Telemetry Card */}
+              <div className="p-4 rounded-xl bg-[#080C14] border border-white/5 space-y-3">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-semibold text-slate-200">Last Test Physics Section:</span>
+                  <span className="font-mono text-emerald-400 font-bold">128 / 180 Marks</span>
+                </div>
+
+                <div className="space-y-1.5 text-xs">
+                  <div className="flex justify-between text-slate-400 text-[11px]">
+                    <span>32 Correct Questions</span>
+                    <span className="font-mono text-emerald-400">+128 marks</span>
                   </div>
-
-                  <h3 className="text-2xl sm:text-3xl font-bold text-ink-900 leading-tight">
-                    {current.title}
-                  </h3>
-
-                  <p className="text-sm sm:text-base font-medium text-navy-600">
-                    {current.tagline}
-                  </p>
-
-                  <p className="text-sm sm:text-base text-ink-500 leading-relaxed">
-                    {current.description}
-                  </p>
-
-                  {/* Bullet Benefits */}
-                  <div className="space-y-2.5 pt-2">
-                    {current.benefits.map((benefit) => (
-                      <div key={benefit} className="flex items-start gap-2.5 text-xs sm:text-sm text-ink-700">
-                        <CheckCircle className="w-4 h-4 text-success-500 shrink-0 mt-0.5" />
-                        <span>{benefit}</span>
-                      </div>
-                    ))}
+                  <div className="flex justify-between text-slate-400 text-[11px]">
+                    <span className="text-rose-400">7 Careless Calculation Errors</span>
+                    <span className="font-mono text-rose-400">-7 marks penalty (-35 potential)</span>
                   </div>
-
-                  <div className="pt-4">
-                    <button
-                      type="button"
-                      onClick={onOpenWaitlist}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-navy-700 hover:bg-navy-600 transition-colors shadow-soft"
-                    >
-                      <span>Experience {current.title} in Beta</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
+                  <div className="flex justify-between text-slate-400 text-[11px]">
+                    <span>6 Unattempted Difficult Questions</span>
+                    <span className="font-mono text-slate-400">0 marks</span>
                   </div>
                 </div>
 
-                {/* Right Interactive Mock View (6 cols) */}
-                <div className="lg:col-span-6">
-                  <div className="rounded-2xl bg-ink-50 border border-ink-200 p-5 sm:p-6 space-y-4">
-                    {/* Header simulated bar */}
-                    <div className="flex items-center justify-between pb-3 border-b border-ink-200 text-xs">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-success-400 animate-pulse" />
-                        <span className="font-mono text-ink-400">Eduvia Core // {current.id}</span>
-                      </div>
-                      <span className="px-2 py-0.5 rounded bg-navy-50 text-navy-600 text-[10px] font-bold border border-navy-100">
-                        LIVE DEMO
-                      </span>
-                    </div>
+                <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[11px]">
+                  <span className="text-slate-400">Recoverable Marks in Next Mock:</span>
+                  <span className="text-emerald-400 font-mono font-bold">+28 Marks</span>
+                </div>
+              </div>
+            </div>
 
-                    {/* Specific preview based on selected tab */}
-                    {activeTab === 0 && (
-                      <div className="space-y-3">
-                        <div className="p-3.5 rounded-xl bg-white border border-ink-200 space-y-2">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="font-semibold text-ink-700">Today's Optimal Study Queue</span>
-                            <span className="text-success-600 font-bold">Priority Rank #1</span>
-                          </div>
-                          <div className="text-xs text-ink-500">
-                            1. Modern Physics: Photoelectric Equation (30 mins • High Yield)
-                          </div>
-                          <div className="text-xs text-ink-500">
-                            2. Chemistry: Electrochemistry Nernst Equation (45 mins • Error Remediation)
-                          </div>
-                          <div className="text-xs text-ink-500">
-                            3. Biology / Math: Rapid Fire Spaced Flashcards (15 mins • Retention Lock)
-                          </div>
-                        </div>
+            <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-slate-400">
+              <span className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                Error taxonomy tagging on every question
+              </span>
+              <button
+                type="button"
+                onClick={onOpenWaitlist}
+                className="text-indigo-400 hover:text-indigo-300 font-semibold inline-flex items-center gap-1"
+              >
+                <span>Try Demo</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
 
-                        <div className="p-3 rounded-lg bg-navy-50 border border-navy-100 flex items-center justify-between text-xs">
-                          <span className="text-ink-500">Cognitive Retention Status:</span>
-                          <span className="font-bold text-navy-600">92% Syllabus Intact</span>
-                        </div>
-                      </div>
-                    )}
+          {/* Bento 2 (5 cols): Daily 45-Min High Yield Queue */}
+          <div className="md:col-span-5 rounded-2xl bg-[#0B0F19] border border-white/[0.08] p-6 sm:p-7 flex flex-col justify-between hover:border-slate-700 transition-colors">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="px-2.5 py-1 rounded bg-indigo-500/10 text-indigo-300 text-xs font-mono font-medium border border-indigo-500/20">
+                  Daily Micro-Queue
+                </span>
+                <span className="text-xs text-slate-500 font-mono">Today, 7:00 AM</span>
+              </div>
 
-                    {activeTab === 1 && (
-                      <div className="space-y-3">
-                        <div className="p-3.5 rounded-xl bg-white border border-ink-200 space-y-2.5">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="font-semibold text-ink-800">Adaptive Question Difficulty</span>
-                            <span className="text-navy-500 font-mono text-[11px]">Level: NTA Advanced</span>
-                          </div>
-                          <div className="text-xs text-ink-600 italic border-l-2 border-navy-400 pl-3 py-1 bg-ink-50 rounded-r">
-                            "A particle of mass m moves under a central force field... Determine angular velocity at perihelion."
-                          </div>
-                          <div className="grid grid-cols-2 gap-2 text-[11px] text-ink-400">
-                            <div className="p-2 rounded bg-ink-50 border border-ink-100">
-                              Avg Solve Time: <span className="text-ink-700 font-bold">1m 42s</span>
-                            </div>
-                            <div className="p-2 rounded bg-ink-50 border border-ink-100">
-                              National Accuracy: <span className="text-warning-600 font-bold">34%</span>
-                            </div>
-                          </div>
-                        </div>
+              <h3 className="text-xl font-bold text-white mb-2">
+                No Morning Decision Paralysis
+              </h3>
 
-                        <div className="p-3 rounded-lg bg-success-50 border border-success-200 text-xs text-success-700 flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 shrink-0" />
-                          <span>Dynamic hint system activated — No direct answers spoiled</span>
-                        </div>
-                      </div>
-                    )}
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5">
+                Wake up to 3 prioritized high-yield tasks calibrated to your weakest recurring concepts instead of wondering what book to open.
+              </p>
 
-                    {activeTab === 2 && (
-                      <div className="space-y-3">
-                        <div className="p-3.5 rounded-xl bg-white border border-ink-200 space-y-2">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="font-semibold text-ink-700">Instant AI Step-by-Step Reasoner</span>
-                            <span className="text-navy-500 font-mono text-[11px]">Response: 1.2s</span>
-                          </div>
-                          <div className="text-xs text-ink-600 bg-ink-50 p-2.5 rounded-lg font-mono border border-ink-100">
-                            Step 1: Identify conservation of angular momentum: L = m·v·r = constant.
-                            <br />
-                            Step 2: Substitute initial boundary condition r₁ = 2R...
-                          </div>
-                          <div className="text-[11px] text-ink-400 flex items-center justify-between">
-                            <span>Verified by AIIMS & IIT Delhi Alum Mentors</span>
-                            <span className="text-success-600 font-semibold">Ready 24/7</span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+              <div className="space-y-2 text-xs">
+                <div className="p-3 rounded-lg bg-[#080C14] border border-white/5 flex items-start gap-2.5">
+                  <span className="w-5 h-5 rounded bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-mono font-bold text-[11px] shrink-0">
+                    1
+                  </span>
+                  <div>
+                    <div className="font-medium text-slate-200">Rotational Inertia Derivations</div>
+                    <div className="text-[11px] text-slate-400 mt-0.5">30 mins · 2 High-Yield Questions</div>
+                  </div>
+                </div>
 
-                    {activeTab === 3 && (
-                      <div className="space-y-3">
-                        <div className="p-3.5 rounded-xl bg-white border border-ink-200 space-y-2">
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="font-semibold text-ink-800">Cognitive Error Attribution</span>
-                            <span className="text-ink-400 font-mono text-[11px]">Last 50 Mistakes</span>
-                          </div>
-                          <div className="space-y-2 pt-1 text-xs">
-                            <div>
-                              <div className="flex justify-between text-ink-600 text-[11px] mb-1">
-                                <span>Conceptual Understanding Gap</span>
-                                <span className="font-bold text-error-500">18% (Focus here)</span>
-                              </div>
-                              <div className="h-1.5 rounded-full bg-ink-100 overflow-hidden">
-                                <div className="h-full bg-error-400 rounded-full w-[18%]" />
-                              </div>
-                            </div>
-                            <div>
-                              <div className="flex justify-between text-ink-600 text-[11px] mb-1">
-                                <span>Calculation / Arithmetic Slip</span>
-                                <span className="font-bold text-warning-500">54% (Slow down)</span>
-                              </div>
-                              <div className="h-1.5 rounded-full bg-ink-100 overflow-hidden">
-                                <div className="h-full bg-warning-400 rounded-full w-[54%]" />
-                              </div>
-                            </div>
-                            <div>
-                              <div className="flex justify-between text-ink-600 text-[11px] mb-1">
-                                <span>Formula Recall Under Pressure</span>
-                                <span className="font-bold text-navy-500">28% (Flashcard deck)</span>
-                              </div>
-                              <div className="h-1.5 rounded-full bg-ink-100 overflow-hidden">
-                                <div className="h-full bg-navy-400 rounded-full w-[28%]" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                <div className="p-3 rounded-lg bg-[#080C14] border border-white/5 flex items-start gap-2.5">
+                  <span className="w-5 h-5 rounded bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-mono font-bold text-[11px] shrink-0">
+                    2
+                  </span>
+                  <div>
+                    <div className="font-medium text-slate-200">Nernst Equation Sign Drills</div>
+                    <div className="text-[11px] text-slate-400 mt-0.5">25 mins · Error Remediation</div>
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-lg bg-[#080C14] border border-white/5 flex items-start gap-2.5">
+                  <span className="w-5 h-5 rounded bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-mono font-bold text-[11px] shrink-0">
+                    3
+                  </span>
+                  <div>
+                    <div className="font-medium text-slate-200">Spaced Revision Deck (15 cards)</div>
+                    <div className="text-[11px] text-slate-400 mt-0.5">15 mins · Retention Lock</div>
                   </div>
                 </div>
               </div>
             </div>
-          );
-        })()}
+
+            <div className="mt-5 pt-3 border-t border-white/5 text-xs text-slate-400 flex items-center gap-1.5">
+              <Check className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Automatically recalibrates if you miss a day</span>
+            </div>
+          </div>
+
+          {/* Bento 3 (5 cols): NCERT Line-by-Line Tracking */}
+          <div className="md:col-span-5 rounded-2xl bg-[#0B0F19] border border-white/[0.08] p-6 sm:p-7 flex flex-col justify-between hover:border-slate-700 transition-colors">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-300 text-xs font-mono font-medium border border-emerald-500/20">
+                  NCERT Line-to-Question
+                </span>
+                <span className="text-xs text-slate-500 font-mono">100% NCERT Scope</span>
+              </div>
+
+              <h3 className="text-xl font-bold text-white mb-2">
+                Every NCERT Line Tested
+              </h3>
+
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5">
+                NEET Biology and Chemistry are 95%+ NCERT verbatim. Eduvia maps every assertion-reason question directly to textbook page numbers.
+              </p>
+
+              <div className="p-3.5 rounded-xl bg-[#080C14] border border-white/5 space-y-2 text-xs">
+                <div className="flex justify-between text-slate-300 text-[11px]">
+                  <span>Genetics & Molecular Biology</span>
+                  <span className="text-emerald-400 font-mono font-bold">94% Covered</span>
+                </div>
+                <div className="w-full h-1.5 rounded-full bg-slate-800">
+                  <div className="h-full rounded-full bg-emerald-500 w-[94%]" />
+                </div>
+
+                <div className="flex justify-between text-slate-300 text-[11px] pt-2">
+                  <span>Coordination Compounds</span>
+                  <span className="text-amber-400 font-mono font-bold">68% Covered</span>
+                </div>
+                <div className="w-full h-1.5 rounded-full bg-slate-800">
+                  <div className="h-full rounded-full bg-amber-500 w-[68%]" />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-white/5 text-xs text-slate-400 flex items-center gap-1.5">
+              <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Direct citations to NCERT Vol 1 & 2</span>
+            </div>
+          </div>
+
+          {/* Bento 4 (Large - 7 cols): 24/7 Socratic Hint Reasoner */}
+          <div className="md:col-span-7 rounded-2xl bg-[#0B0F19] border border-white/[0.08] p-6 sm:p-7 flex flex-col justify-between hover:border-slate-700 transition-colors">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <span className="px-2.5 py-1 rounded bg-sky-500/10 text-sky-300 text-xs font-mono font-medium border border-sky-500/20">
+                  Socratic Doubt AI
+                </span>
+                <span className="text-xs text-slate-500 font-mono">24/7 Available</span>
+              </div>
+
+              <h3 className="text-xl font-bold text-white mb-2">
+                Hints That Teach You How to Think
+              </h3>
+
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5">
+                Stuck at 11:30 PM? Other apps give you a video solution that spoils the answer in 5 seconds. Eduvia gives Socratic hints that guide you to solve it yourself.
+              </p>
+
+              <div className="p-4 rounded-xl bg-[#080C14] border border-white/5 space-y-2 text-xs font-mono">
+                <div className="text-indigo-300 font-semibold">Hint Level 1 (Guiding Question):</div>
+                <div className="text-slate-300 bg-white/[0.02] p-2.5 rounded border border-white/5">
+                  "Notice that no external torque acts about the axis of rotation. What conserved quantity connects initial and final states?"
+                </div>
+                <div className="text-[11px] text-slate-400 flex items-center justify-between pt-1">
+                  <span>Student derives: L = I₁ω₁ = I₂ω₂</span>
+                  <span className="text-emerald-400 font-bold">Solved independently</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-slate-400">
+              <span className="flex items-center gap-1.5">
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                Trains exam-hall problem solving instincts
+              </span>
+              <button
+                type="button"
+                onClick={onOpenWaitlist}
+                className="text-indigo-400 hover:text-indigo-300 font-semibold inline-flex items-center gap-1"
+              >
+                <span>Get Early Access</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
