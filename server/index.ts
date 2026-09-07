@@ -73,7 +73,7 @@ app.get('/api/health', (_req: Request, res: Response) => {
  * Waitlist registration endpoint
  * POST /api/waitlist
  */
-app.post('/api/waitlist', waitlistRateLimiter, (req: Request, res: Response) => {
+app.post('/api/waitlist', waitlistRateLimiter, async (req: Request, res: Response) => {
   try {
     const validation = validateWaitlistSubmission(req.body);
 
@@ -106,8 +106,8 @@ app.post('/api/waitlist', waitlistRateLimiter, (req: Request, res: Response) => 
       req.socket.remoteAddress ||
       '127.0.0.1';
 
-    // Persist via prepared statement in database
-    const registration = db.register({
+    // Persist via Supabase database
+    const registration = await db.register({
       ...cleanData,
       ipAddress: clientIp
     });

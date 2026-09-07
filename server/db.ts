@@ -1,17 +1,10 @@
-import { DatabaseSync } from 'node:sqlite';
-import path from 'node:path';
-import fs from 'node:fs';
+import { createClient } from '@supabase/supabase-js';
 
-// Ensure data directory exists
-const dataDir = path.resolve(process.cwd(), 'server', 'data');
-if (!fs.existsSync(dataDir)) {
-  fs.mkdirSync(dataDir, { recursive: true });
-}
-
-const dbPath = process.env.DATABASE_PATH || path.join(dataDir, 'eduvia.db');
+const supabaseUrl = process.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY || '';
 
 export interface WaitlistRecord {
-  id: number;
+  id: string;
   queue_position: number;
   full_name: string;
   email: string;
@@ -23,62 +16,20 @@ export interface WaitlistRecord {
   created_at: string;
 }
 
+export interface RegistrationResult {
+  isDuplicate: boolean;
+  queuePosition: number;
+  exam: string;
+}
+
 class DatabaseManager {
-  private db: DatabaseSync;
+  private client;
 
   constructor() {
-    this.db = new DatabaseSync(dbPath);
-    this.init();
+    this.client = createClient(supabaseUrl, supabaseAnonKey);
   }
 
-  private init() {
-    // Enable WAL mode for performance & concurrency
-    this.db.exec('PRAGMA journal_mode = WAL;');
-    this.db.exec('PRAGMA foreign_keys = ON;');
-
-    // Create waitlist table with strict constraints
-    this.db.exec(`
-      CREATE TABLE IF NOT EXISTS waitlist (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        queue_position INTEGER NOT NULL,
-        full_name TEXT NOT NULL,
-        email TEXT NOT NULL UNIQUE COLLATE NOCASE,
-        phone TEXT,
-        exam TEXT NOT NULL CHECK (exam IN ('NEET', 'JEE')),
-        target_year TEXT NOT NULL CHECK (target_year IN ('2026', '2027', '2028')),
-        current_class TEXT NOT NULL CHECK (current_class IN ('Class 11', 'Class 12', 'Dropper')),
-        ip_address TEXT NOT NULL,
-        created_at TEXT NOT NULL
-      );
-
-      CREATE UNIQUE INDEX IF NOT EXISTS idx_waitlist_email ON waitlist(email);
-      CREATE INDEX IF NOT EXISTS idx_waitlist_created ON waitlist(created_at);
-    `);
-  }
-
-  /**
-   * Check if an email is already registered.
-   */
-  public findByEmail(email: string): WaitlistRecord | null {
-    const stmt = this.db.prepare('SELECT * FROM waitlist WHERE email = ? COLLATE NOCASE LIMIT 1');
-    const result = stmt.get(email.trim().toLowerCase());
-    return (result as unknown as WaitlistRecord) || null;
-  }
-
-  /**
-   * Gets the next server-assigned queue position.
-   */
-  public getNextQueuePosition(): number {
-    const stmt = this.db.prepare('SELECT COALESCE(MAX(queue_position), 0) + 1 AS next_pos FROM waitlist');
-    const result = stmt.get() as { next_pos: number };
-    return result?.next_pos || 1;
-  }
-
-  /**
-   * Registers a new waitlist applicant with ACID transaction.
-   * If email already exists, returns the existing record safely.
-   */
-  public register(data: {
+  async register(data: {
     fullName: string;
     email: string;
     phone?: string | null;
@@ -86,52 +37,44 @@ class DatabaseManager {
     targetYear: '2026' | '2027' | '2028';
     currentClass: 'Class 11' | 'Class 12' | 'Dropper';
     ipAddress: string;
-  }): { isDuplicate: boolean; queuePosition: number; exam: string } {
-    const normalizedEmail = data.email.trim().toLowerCase();
+  }): Promise<RegistrationResult> {
+    const { data: result, error } = await this.client.rpc('register_waitlist_entry', {
+      p_full_name: data.fullName.trim(),
+      p_email: data.email.trim().toLowerCase(),
+      p_phone: data.phone ? data.phone.trim() : '',
+      p_exam: data.exam,
+      p_target_year: data.targetYear,
+      p_current_class: data.currentClass,
+      p_ip_address: data.ipAddress
+    });
 
-    // Check for duplicate first
-    const existing = this.findByEmail(normalizedEmail);
-    if (existing) {
-      return {
-        isDuplicate: true,
-        queuePosition: existing.queue_position,
-        exam: existing.exam
-      };
+    if (error) {
+      throw new Error(`Database registration failed: ${error.message}`);
     }
 
-    // Assign sequential server-controlled queue number
-    const queuePosition = this.getNextQueuePosition();
-    const createdAt = new Date().toISOString();
+    const typed = result as { success: boolean; is_duplicate: boolean; queue_position: number; exam: string; error?: string };
 
-    const insertStmt = this.db.prepare(`
-      INSERT INTO waitlist (
-        queue_position, full_name, email, phone, exam, target_year, current_class, ip_address, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `);
-
-    insertStmt.run(
-      queuePosition,
-      data.fullName.trim(),
-      normalizedEmail,
-      data.phone ? data.phone.trim() : null,
-      data.exam,
-      data.targetYear,
-      data.currentClass,
-      data.ipAddress,
-      createdAt
-    );
+    if (!typed.success) {
+      throw new Error(typed.error || 'Registration failed');
+    }
 
     return {
-      isDuplicate: false,
-      queuePosition,
-      exam: data.exam
+      isDuplicate: Boolean(typed.is_duplicate),
+      queuePosition: typed.queue_position,
+      exam: typed.exam
     };
   }
 
-  public getStats(): { totalCount: number } {
-    const stmt = this.db.prepare('SELECT COUNT(*) as count FROM waitlist');
-    const result = stmt.get() as { count: number };
-    return { totalCount: result?.count || 0 };
+  async getStats(): Promise<{ totalCount: number }> {
+    const { count, error } = await this.client
+      .from('waitlist')
+      .select('*', { count: 'exact', head: true });
+
+    if (error) {
+      throw new Error(`Failed to fetch stats: ${error.message}`);
+    }
+
+    return { totalCount: count || 0 };
   }
 }
 
