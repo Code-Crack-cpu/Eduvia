@@ -60,7 +60,7 @@ export const App: React.FC = () => {
 
   // Otherwise, render the main landing page
   return (
-    <div className="min-h-screen bg-[#080B12] text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="min-h-screen bg-[#FAFBFC] text-ink-700 selection:bg-navy-200 selection:text-navy-900">
       {/* Navigation */}
       <Navbar
         currentTrack={currentTrack}

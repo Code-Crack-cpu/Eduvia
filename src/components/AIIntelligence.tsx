@@ -126,53 +126,50 @@ export const AIIntelligence: React.FC<AIIntelligenceProps> = ({ currentTrack, on
   const currentScenario = activeScenarios[selectedSubjectIndex] || activeScenarios[0];
 
   return (
-    <section id="ai-intelligence" className="py-24 relative overflow-hidden bg-[#080B12] border-t border-white/[0.06]">
-      {/* Glow Effect */}
-      <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
-
+    <section id="ai-intelligence" className="py-24 relative overflow-hidden bg-[#F8FAFC] border-t border-ink-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-300 text-xs font-semibold mb-4">
-            <Cpu className="w-3.5 h-3.5 text-sky-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-navy-50 border border-navy-100 text-navy-600 text-xs font-semibold mb-4">
+            <Cpu className="w-3.5 h-3.5 text-navy-500" />
             <span>Deep Diagnostic Telemetry</span>
           </div>
 
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-6">
+          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-ink-900 tracking-tight leading-tight mb-6">
             Inside the AI Diagnostic Engine:{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-indigo-300 to-purple-400">
+            <span className="text-navy-700">
               Why you missed that mark.
             </span>
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+          <p className="text-base sm:text-lg text-ink-500 leading-relaxed">
             Other platforms tell you what was right or wrong. Eduvia analyzes your cognitive friction point, flags the exact misconception, and serves the cure.
           </p>
         </div>
 
         {/* Diagnostic Inspector Card */}
-        <div className="max-w-5xl mx-auto rounded-3xl bg-[#0D1324] border border-white/10 shadow-2xl overflow-hidden">
+        <div className="max-w-5xl mx-auto rounded-2xl bg-white border border-ink-200 shadow-card overflow-hidden">
           {/* Header Bar */}
-          <div className="p-4 sm:p-6 bg-[#10172B] border-b border-white/[0.08] flex flex-wrap items-center justify-between gap-4">
+          <div className="p-4 sm:p-6 bg-ink-50 border-b border-ink-200 flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center">
-                <Brain className="w-5 h-5 text-indigo-400" />
+              <div className="w-10 h-10 rounded-xl bg-navy-50 border border-navy-100 flex items-center justify-center">
+                <Brain className="w-5 h-5 text-navy-500" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <h3 className="text-base font-bold text-ink-900 flex items-center gap-2">
                   <span>Cognitive Friction Inspector</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-success-50 text-success-600 border border-success-200">
                     Live Telemetry
                   </span>
                 </h3>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-ink-400">
                   Select a subject to see real-time student error decomposition
                 </p>
               </div>
             </div>
 
             {/* Subject Selector Buttons */}
-            <div className="flex items-center gap-1.5 bg-[#080B12] p-1 rounded-xl border border-white/10">
+            <div className="flex items-center gap-1.5 bg-white p-1 rounded-xl border border-ink-200">
               {activeScenarios.map((scenario, idx) => (
                 <button
                   key={scenario.subject}
@@ -180,8 +177,8 @@ export const AIIntelligence: React.FC<AIIntelligenceProps> = ({ currentTrack, on
                   onClick={() => setSelectedSubjectIndex(idx)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     selectedSubjectIndex === idx
-                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-navy-700 text-white shadow-soft'
+                      : 'text-ink-400 hover:text-ink-600'
                   }`}
                 >
                   {scenario.subject}
@@ -191,93 +188,93 @@ export const AIIntelligence: React.FC<AIIntelligenceProps> = ({ currentTrack, on
           </div>
 
           {/* Body Content */}
-          <div className="p-6 sm:p-8 space-y-6">
+          <div className="p-6 sm:p-8 space-y-6 bg-[#FCFDFE]">
             {/* Question & Mistake Analysis Box */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               {/* Question Context (7 cols) */}
               <div className="lg:col-span-7 space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-semibold text-indigo-400">
+                  <span className="text-xs font-mono font-semibold text-navy-500">
                     {currentScenario.subject} • Chapter: {currentScenario.chapter}
                   </span>
                   <span
                     className={`px-2.5 py-1 rounded text-xs font-bold border ${
                       currentScenario.aiClassification === 'Conceptual Flaw'
-                        ? 'bg-rose-500/15 text-rose-300 border-rose-500/30'
+                        ? 'bg-error-50 text-error-600 border-error-200'
                         : currentScenario.aiClassification === 'Calculation Trap'
-                        ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
-                        : 'bg-purple-500/15 text-purple-300 border-purple-500/30'
+                        ? 'bg-warning-50 text-warning-600 border-warning-200'
+                        : 'bg-accent-50 text-accent-600 border-accent-200'
                     }`}
                   >
                     Root Cause: {currentScenario.aiClassification}
                   </span>
                 </div>
 
-                <div className="p-4 rounded-xl bg-[#090D18] border border-white/5 space-y-2">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                <div className="p-4 rounded-xl bg-ink-50 border border-ink-200 space-y-2">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-ink-400">
                     Exam Problem Statement
                   </span>
-                  <p className="text-sm text-slate-200 leading-relaxed font-medium">
+                  <p className="text-sm text-ink-700 leading-relaxed font-medium">
                     "{currentScenario.questionSnippet}"
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                  <div className="p-3 rounded-xl bg-rose-950/20 border border-rose-500/20">
-                    <span className="text-rose-400 font-bold block mb-1">Student Submission</span>
-                    <span className="text-slate-300">{currentScenario.studentAnswer}</span>
+                  <div className="p-3 rounded-xl bg-error-50 border border-error-200">
+                    <span className="text-error-500 font-bold block mb-1">Student Submission</span>
+                    <span className="text-ink-600">{currentScenario.studentAnswer}</span>
                   </div>
-                  <div className="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/20">
-                    <span className="text-emerald-400 font-bold block mb-1">Verified Key</span>
-                    <span className="text-slate-300">{currentScenario.correctAnswer}</span>
+                  <div className="p-3 rounded-xl bg-success-50 border border-success-200">
+                    <span className="text-success-600 font-bold block mb-1">Verified Key</span>
+                    <span className="text-ink-600">{currentScenario.correctAnswer}</span>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-xl bg-indigo-950/15 border border-indigo-500/25 space-y-1.5">
-                  <div className="flex items-center gap-2 text-xs font-bold text-indigo-300">
-                    <Lightbulb className="w-4 h-4 text-indigo-400" />
+                <div className="p-4 rounded-xl bg-navy-50 border border-navy-200 space-y-1.5">
+                  <div className="flex items-center gap-2 text-xs font-bold text-navy-600">
+                    <Lightbulb className="w-4 h-4 text-navy-500" />
                     <span>AI Cognitive Diagnosis</span>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-xs text-ink-600 leading-relaxed">
                     {currentScenario.diagnosisDetail}
                   </p>
                 </div>
               </div>
 
               {/* Action Remediation Plan (5 cols) */}
-              <div className="lg:col-span-5 bg-[#090D18] border border-white/5 rounded-2xl p-5 flex flex-col justify-between space-y-4">
+              <div className="lg:col-span-5 bg-ink-50 border border-ink-200 rounded-2xl p-5 flex flex-col justify-between space-y-4">
                 <div>
-                  <div className="flex items-center justify-between pb-3 border-b border-white/5 mb-4">
-                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                  <div className="flex items-center justify-between pb-3 border-b border-ink-200 mb-4">
+                    <span className="text-xs font-bold uppercase tracking-wider text-success-600 flex items-center gap-1.5">
                       <Target className="w-3.5 h-3.5" />
                       Next Best Action
                     </span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-success-50 text-success-600 border border-success-200">
                       {currentScenario.actionPlan.scoreYield}
                     </span>
                   </div>
 
                   <div className="space-y-3 text-xs">
                     <div>
-                      <span className="text-slate-400 text-[11px]">Recommended Task:</span>
-                      <p className="font-semibold text-white mt-0.5">
+                      <span className="text-ink-400 text-[11px]">Recommended Task:</span>
+                      <p className="font-semibold text-ink-800 mt-0.5">
                         {currentScenario.actionPlan.immediateTask}
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-4 text-slate-300">
+                    <div className="flex items-center gap-4 text-ink-600">
                       <span className="flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
+                        <Clock className="w-3.5 h-3.5 text-ink-400" />
                         Time: {currentScenario.actionPlan.estTime}
                       </span>
                       <span className="flex items-center gap-1">
-                        <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                        <BookOpen className="w-3.5 h-3.5 text-navy-500" />
                         Key: {currentScenario.actionPlan.conceptKey}
                       </span>
                     </div>
 
-                    <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5 text-[11px] text-slate-400 leading-relaxed">
-                      Eduvia’s spaced remediation engine guarantees this topic will reappear in your personal drill at intervals: Day 1, Day 3, and Day 10.
+                    <div className="p-3 rounded-lg bg-white border border-ink-100 text-[11px] text-ink-500 leading-relaxed">
+                      Eduvia's spaced remediation engine guarantees this topic will reappear in your personal drill at intervals: Day 1, Day 3, and Day 10.
                     </div>
                   </div>
                 </div>
@@ -285,7 +282,7 @@ export const AIIntelligence: React.FC<AIIntelligenceProps> = ({ currentTrack, on
                 <button
                   type="button"
                   onClick={onOpenWaitlist}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all shadow-md shadow-indigo-600/30"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-semibold text-white bg-navy-700 hover:bg-navy-600 transition-all shadow-soft"
                 >
                   <span>Experience Diagnostic Tests in Beta</span>
                   <ArrowUpRight className="w-4 h-4" />

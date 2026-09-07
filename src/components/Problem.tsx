@@ -31,27 +31,23 @@ export const Problem: React.FC = () => {
   ];
 
   return (
-    <section id="problem" className="py-24 relative overflow-hidden bg-[#080B12] border-t border-white/[0.05]">
-      {/* Background Accent */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-rose-950/15 rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute bottom-10 right-0 w-96 h-96 bg-indigo-950/20 rounded-full blur-3xl pointer-events-none -z-10" />
-
+    <section id="problem" className="py-24 relative overflow-hidden bg-white border-t border-ink-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-error-50 border border-error-200 text-error-600 text-xs font-semibold mb-4">
             <AlertOctagon className="w-3.5 h-3.5" />
             <span>The Reality of Competitive Prep</span>
           </div>
 
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-6">
+          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold text-ink-900 tracking-tight leading-tight mb-6">
             Generic coaching was never built for{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-amber-300 to-indigo-400">
+            <span className="text-navy-700">
               individual brains.
             </span>
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+          <p className="text-base sm:text-lg text-ink-500 leading-relaxed">
             Every year, over 3.7 million students contest for medical and engineering seats. Yet most rely on rigid, one-size-fits-all coaching that treats every student like a standardized conveyor belt.
           </p>
         </div>
@@ -63,18 +59,18 @@ export const Problem: React.FC = () => {
             return (
               <div
                 key={item.title}
-                className="bg-[#0D1220] border border-white/[0.06] rounded-2xl p-6 relative hover:border-rose-500/30 transition-all duration-300 group hover:-translate-y-1 shadow-lg"
+                className="bg-white border border-ink-200 rounded-2xl p-6 relative hover:border-error-200 transition-all duration-300 group hover:-translate-y-1 shadow-soft hover:shadow-card-hover"
               >
-                <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center mb-4 group-hover:bg-rose-500/20 transition-colors">
-                  <Icon className="w-5 h-5 text-rose-400" />
+                <div className="w-10 h-10 rounded-xl bg-error-50 border border-error-100 flex items-center justify-center mb-4 group-hover:bg-error-100 transition-colors">
+                  <Icon className="w-5 h-5 text-error-500" />
                 </div>
-                <div className="inline-block text-[11px] font-bold uppercase tracking-wider text-rose-400/90 mb-2">
+                <div className="inline-block text-[11px] font-bold uppercase tracking-wider text-error-500 mb-2">
                   {item.badge}
                 </div>
-                <h3 className="text-lg font-bold text-slate-100 mb-2.5">
+                <h3 className="text-lg font-bold text-ink-900 mb-2.5">
                   {item.title}
                 </h3>
-                <p className="text-sm text-slate-400 leading-relaxed">
+                <p className="text-sm text-ink-500 leading-relaxed">
                   {item.description}
                 </p>
               </div>
@@ -85,39 +81,39 @@ export const Problem: React.FC = () => {
         {/* Comparison Table: Traditional vs Eduvia */}
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-white">
+            <h3 className="text-2xl font-bold text-ink-900">
               The Fundamental Shift: Factory Model vs. Adaptive Intelligence
             </h3>
-            <p className="text-sm text-slate-400 mt-2">
+            <p className="text-sm text-ink-400 mt-2">
               Why high-intent aspirants are shifting from passive coaching lectures to active diagnostic systems.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-[#0B101E] overflow-hidden shadow-2xl">
+          <div className="rounded-2xl border border-ink-200 bg-white overflow-hidden shadow-card">
             {/* Table Header */}
-            <div className="grid grid-cols-1 md:grid-cols-12 bg-[#0E1528] border-b border-white/10 text-xs sm:text-sm font-semibold">
-              <div className="md:col-span-4 p-4 text-slate-400">Prep Dimension</div>
-              <div className="md:col-span-4 p-4 text-rose-400/90 flex items-center gap-1.5 border-t md:border-t-0 md:border-l border-white/10 bg-rose-950/10">
-                <X className="w-4 h-4 text-rose-400 shrink-0" />
+            <div className="grid grid-cols-1 md:grid-cols-12 bg-ink-50 border-b border-ink-200 text-xs sm:text-sm font-semibold">
+              <div className="md:col-span-4 p-4 text-ink-500">Prep Dimension</div>
+              <div className="md:col-span-4 p-4 text-error-500 flex items-center gap-1.5 border-t md:border-t-0 md:border-l border-ink-200 bg-error-50/50">
+                <X className="w-4 h-4 text-error-400 shrink-0" />
                 <span>Traditional Coaching Model</span>
               </div>
-              <div className="md:col-span-4 p-4 text-emerald-400 flex items-center gap-1.5 border-t md:border-t-0 md:border-l border-white/10 bg-indigo-950/20">
-                <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+              <div className="md:col-span-4 p-4 text-navy-700 flex items-center gap-1.5 border-t md:border-t-0 md:border-l border-ink-200 bg-navy-50/60">
+                <Check className="w-4 h-4 text-success-500 shrink-0" />
                 <span>Eduvia AI Learning Engine</span>
               </div>
             </div>
 
             {/* Table Rows */}
-            <div className="divide-y divide-white/[0.06]">
+            <div className="divide-y divide-ink-100">
               {problemComparison.map((row) => (
                 <div key={row.category} className="grid grid-cols-1 md:grid-cols-12 text-xs sm:text-sm">
-                  <div className="md:col-span-4 p-4 font-semibold text-slate-200 bg-white/[0.01]">
+                  <div className="md:col-span-4 p-4 font-semibold text-ink-800 bg-ink-50/30">
                     {row.category}
                   </div>
-                  <div className="md:col-span-4 p-4 text-slate-400 border-t md:border-t-0 md:border-l border-white/[0.06] bg-rose-950/[0.04] leading-relaxed">
+                  <div className="md:col-span-4 p-4 text-ink-500 border-t md:border-t-0 md:border-l border-ink-100 bg-error-50/20 leading-relaxed">
                     {row.traditional}
                   </div>
-                  <div className="md:col-span-4 p-4 text-indigo-200 border-t md:border-t-0 md:border-l border-white/[0.06] bg-indigo-950/[0.08] font-medium leading-relaxed">
+                  <div className="md:col-span-4 p-4 text-navy-700 border-t md:border-t-0 md:border-l border-ink-100 bg-navy-50/30 font-medium leading-relaxed">
                     {row.eduvia}
                   </div>
                 </div>

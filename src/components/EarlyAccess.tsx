@@ -95,7 +95,7 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
             particleCount: 80,
             spread: 70,
             origin: { y: 0.6 },
-            colors: ['#6366F1', '#8B5CF6', '#10B981', '#38BDF8']
+            colors: ['#3B6BDB', '#5B82F5', '#10B981', '#A78BFA']
           });
         } catch {
           // confetti fallback
@@ -123,52 +123,49 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
   };
 
   return (
-    <section id="early-access" className="py-24 relative overflow-hidden bg-radial-hero border-t border-white/[0.08]">
-      {/* Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-indigo-600/15 rounded-full blur-[140px] pointer-events-none -z-10" />
-
+    <section id="early-access" className="py-24 relative overflow-hidden bg-[#F8FAFC] border-t border-ink-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-navy-50 border border-navy-100 text-navy-600 text-xs font-semibold mb-4">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Limited Beta Access Cohort 01</span>
           </div>
 
-          <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
+          <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-extrabold text-ink-900 tracking-tight leading-tight mb-4">
             Your preparation can be{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-sky-400">
+            <span className="text-navy-700">
               smarter.
             </span>
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-ink-500 leading-relaxed max-w-2xl mx-auto">
             Join the early access waitlist for Eduvia. Get personalized diagnostic baseline tests, daily high-yield schedules, and 24/7 AI tutor guidance before public release.
           </p>
         </div>
 
         {/* Waitlist Box */}
-        <div className="rounded-3xl bg-[#0D1324] border border-white/10 p-6 sm:p-10 shadow-2xl relative">
+        <div className="rounded-2xl bg-white border border-ink-200 p-6 sm:p-10 shadow-card relative">
           {/* Security Badge in Card Corner */}
-          <div className="absolute top-4 right-4 hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/90 border border-emerald-500/20 text-[11px] text-emerald-400 font-medium">
-            <Lock className="w-3 h-3 text-emerald-400" />
+          <div className="absolute top-4 right-4 hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success-50 border border-success-200 text-[11px] text-success-600 font-medium">
+            <Lock className="w-3 h-3 text-success-500" />
             <span>Server-Verified & Rate-Limited</span>
           </div>
 
           {isSubmitted ? (
             /* Success State - Only shown upon verified server response */
             <div className="text-center py-6 space-y-6">
-              <div className="w-16 h-16 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto shadow-lg shadow-emerald-950/40">
-                <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+              <div className="w-16 h-16 rounded-2xl bg-success-50 border border-success-200 flex items-center justify-center mx-auto shadow-soft">
+                <CheckCircle2 className="w-8 h-8 text-success-500" />
               </div>
 
               <div className="space-y-2">
-                <span className="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold">
+                <span className="text-xs font-mono uppercase tracking-wider text-success-600 font-bold">
                   {isExistingUser ? 'Already Registered' : 'Server Verified Registration'}
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-bold text-white">
+                <h3 className="text-2xl sm:text-3xl font-bold text-ink-900">
                   {isExistingUser ? "You're already on the priority list!" : "You're on the priority invite list!"}
                 </h3>
-                <p className="text-sm text-slate-300 max-w-md mx-auto">
+                <p className="text-sm text-ink-500 max-w-md mx-auto">
                   {isExistingUser
                     ? `Your registration for the ${formData.exam} Track is active in our secure database.`
                     : `We have reserved your beta access for the ${formData.exam} Track. When invites roll out, your personalized diagnostic baseline will be waiting for you.`}
@@ -177,10 +174,10 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
 
               {/* Queue Badge */}
               {queueNumber && (
-                <div className="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-[#090D18] border border-indigo-500/30 text-slate-200 text-sm">
-                  <Users className="w-4 h-4 text-indigo-400" />
+                <div className="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-ink-50 border border-navy-200 text-ink-700 text-sm">
+                  <Users className="w-4 h-4 text-navy-500" />
                   <span>Verified Queue Position:</span>
-                  <span className="font-mono font-bold text-base text-indigo-300">
+                  <span className="font-mono font-bold text-base text-navy-600">
                     #{queueNumber}
                   </span>
                 </div>
@@ -190,7 +187,7 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="text-xs text-slate-400 hover:text-slate-200 underline underline-offset-4"
+                  className="text-xs text-ink-400 hover:text-ink-600 underline underline-offset-4"
                 >
                   Register another student
                 </button>
@@ -214,7 +211,7 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
               </div>
 
               {errorMsg && (
-                <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center gap-2.5 text-xs text-rose-300 animate-fadeIn">
+                <div className="p-3.5 rounded-xl bg-error-50 border border-error-200 flex items-center gap-2.5 text-xs text-error-600 animate-fade-in">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>{errorMsg}</span>
                 </div>
@@ -223,8 +220,8 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Full Name */}
                 <div>
-                  <label htmlFor="fullName" className="block text-xs font-semibold text-slate-300 mb-1.5">
-                    Student Full Name <span className="text-rose-400">*</span>
+                  <label htmlFor="fullName" className="block text-xs font-semibold text-ink-600 mb-1.5">
+                    Student Full Name <span className="text-error-500">*</span>
                   </label>
                   <input
                     id="fullName"
@@ -234,15 +231,15 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
                     placeholder="e.g. Shaikh Sohail"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-[#090D18] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                    className="w-full px-4 py-3 rounded-xl bg-ink-50 border border-ink-200 text-ink-900 placeholder-ink-400 text-sm focus:outline-none focus:border-navy-400 focus:ring-1 focus:ring-navy-400 transition-colors"
                   />
-                  <span className="text-[10px] text-slate-500 mt-1 block">Max 60 characters · Alphabets and spaces only</span>
+                  <span className="text-[10px] text-ink-400 mt-1 block">Max 60 characters · Alphabets and spaces only</span>
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-xs font-semibold text-slate-300 mb-1.5">
-                    Email Address <span className="text-rose-400">*</span>
+                  <label htmlFor="email" className="block text-xs font-semibold text-ink-600 mb-1.5">
+                    Email Address <span className="text-error-500">*</span>
                   </label>
                   <input
                     id="email"
@@ -252,9 +249,9 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
                     placeholder="e.g. aspirant@gmail.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-[#090D18] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                    className="w-full px-4 py-3 rounded-xl bg-ink-50 border border-ink-200 text-ink-900 placeholder-ink-400 text-sm focus:outline-none focus:border-navy-400 focus:ring-1 focus:ring-navy-400 transition-colors"
                   />
-                  <span className="text-[10px] text-slate-500 mt-1 block">Valid RFC 5322 format required</span>
+                  <span className="text-[10px] text-ink-400 mt-1 block">Valid RFC 5322 format required</span>
                 </div>
               </div>
 
@@ -262,7 +259,7 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {/* Target Exam */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <label className="block text-xs font-semibold text-ink-600 mb-1.5">
                     Target Exam
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -271,8 +268,8 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
                       onClick={() => setFormData({ ...formData, exam: 'NEET' })}
                       className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all ${
                         formData.exam === 'NEET'
-                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50'
-                          : 'bg-[#090D18] text-slate-400 border-white/10 hover:border-white/20'
+                          ? 'bg-success-50 text-success-700 border-success-300'
+                          : 'bg-ink-50 text-ink-400 border-ink-200 hover:border-ink-300'
                       }`}
                     >
                       NEET
@@ -282,8 +279,8 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
                       onClick={() => setFormData({ ...formData, exam: 'JEE' })}
                       className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all ${
                         formData.exam === 'JEE'
-                          ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/50'
-                          : 'bg-[#090D18] text-slate-400 border-white/10 hover:border-white/20'
+                          ? 'bg-navy-50 text-navy-700 border-navy-300'
+                          : 'bg-ink-50 text-ink-400 border-ink-200 hover:border-ink-300'
                       }`}
                     >
                       JEE
@@ -293,7 +290,7 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
 
                 {/* Current Class */}
                 <div>
-                  <label htmlFor="currentClass" className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <label htmlFor="currentClass" className="block text-xs font-semibold text-ink-600 mb-1.5">
                     Current Stage
                   </label>
                   <select
@@ -305,7 +302,7 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
                         currentClass: e.target.value as 'Class 11' | 'Class 12' | 'Dropper'
                       })
                     }
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090D18] border border-white/10 text-slate-200 text-xs focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-ink-50 border border-ink-200 text-ink-700 text-xs focus:outline-none focus:border-navy-400"
                   >
                     <option value="Class 11">Class 11 (2-Year Journey)</option>
                     <option value="Class 12">Class 12 (Board + Prep)</option>
@@ -315,14 +312,14 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
 
                 {/* Target Exam Year */}
                 <div>
-                  <label htmlFor="targetYear" className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  <label htmlFor="targetYear" className="block text-xs font-semibold text-ink-600 mb-1.5">
                     Target Exam Year
                   </label>
                   <select
                     id="targetYear"
                     value={formData.targetYear}
                     onChange={(e) => setFormData({ ...formData, targetYear: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090D18] border border-white/10 text-slate-200 text-xs focus:outline-none focus:border-indigo-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-ink-50 border border-ink-200 text-ink-700 text-xs focus:outline-none focus:border-navy-400"
                   >
                     <option value="2026">2026</option>
                     <option value="2027">2027</option>
@@ -335,7 +332,7 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-4 px-6 rounded-xl font-semibold text-white text-base bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:to-purple-500 shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full py-4 px-6 rounded-xl font-semibold text-white text-base bg-navy-800 hover:bg-navy-700 shadow-card hover:shadow-card-hover transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>
@@ -350,12 +347,12 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
                 )}
               </button>
 
-              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-[11px] text-slate-400">
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-[11px] text-ink-400">
                 <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-success-500" />
                   Server validated · Zero client-side storage of personal data
                 </span>
-                <span className="text-slate-500 font-mono">
+                <span className="text-ink-400 font-mono">
                   ACID database backed
                 </span>
               </div>
