@@ -41,6 +41,32 @@ Every year, over **3.7 million students** contest for medical (NEET-UG) and engi
 
 ---
 
+## 🛡️ Security Architecture & Hardening
+
+This platform implements defense-in-depth protection against common web attacks and abusive scripts:
+
+1. **Content Security Policy (CSP) & HTTP Headers**:
+   - Strict CSP configured in `index.html`, `vite.config.ts`, `vercel.json`, and `public/_headers`.
+   - `X-Frame-Options: DENY` (prevents Clickjacking & iframe embedding).
+   - `X-Content-Type-Options: nosniff` (prevents MIME-type sniffing attacks).
+   - `Referrer-Policy: strict-origin-when-cross-origin`.
+   - `Permissions-Policy` disabling camera, microphone, geolocation, and payment sensors.
+2. **Input Sanitization & Injection Defense**:
+   - Strict sanitization of all user inputs in `src/utils/security.ts`.
+   - Strips HTML tags, control characters, and SQL / script injection tokens (`<script>`, `alert`, `onerror`, `DROP`, `eval`).
+   - Hard bounds enforcement: Name max 60 chars (alphabets/spaces only), email max 100 chars (RFC 5322 regex).
+3. **Anti-Bot Honeypot Trap**:
+   - Hidden honeypot field (`company_trap`) that catches automated scrapers and bot scripts.
+4. **Client-Side Rate Limiting & Cooldown**:
+   - Sliding-window rate limiter restricting form submissions to maximum 3 attempts per minute per session.
+5. **Safe LocalStorage Validation**:
+   - Data stored in `localStorage` is type-checked and sanitized before DOM hydration, preventing local storage manipulation attacks.
+6. **Network & Dev Server Isolation**:
+   - Dev server bound to `127.0.0.1` (localhost only) preventing unsolicited access across shared LAN / Wi-Fi networks.
+
+
+---
+
 ## 🛠️ Actual Tech Stack
 
 | Layer | Technology | Purpose |

@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, ArrowRight, CheckCircle2, AlertCircle, Loader2, Shield, Users } from 'lucide-react';
+import { Sparkles, ArrowRight, CheckCircle2, AlertCircle, Loader2, ShieldCheck, Users, Lock } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { ExamTrack, WaitlistSubmission } from '../types';
+import {
+  sanitizeInput,
+  validateHumanName,
+  validateEmail,
+  checkRateLimit,
+  recordAttempt,
+  safeGetStoredWaitlist
+} from '../utils/security';
 
 interface EarlyAccessProps {
   initialTrack: ExamTrack;
@@ -17,10 +25,14 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
     currentClass: 'Class 12'
   });
 
+  // Honeypot field for bot/scraper detection
+  const [honeypot, setHoneypot] = useState('');
+
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [queueNumber, setQueueNumber] = useState<number | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [rateLimitWait, setRateLimitWait] = useState<number | null>(null);
 
   // Sync initial track if prop changes and not submitted yet
   useEffect(() => {
@@ -29,52 +41,86 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
     }
   }, [initialTrack, isSubmitted]);
 
-  // Check existing local storage
+  // Safely check existing local storage using security validator
   useEffect(() => {
-    const saved = localStorage.getItem('eduvia_waitlist_user');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed.queueNumber) {
-          setQueueNumber(parsed.queueNumber);
-          setIsSubmitted(true);
-        }
-      } catch {
-        // ignore
-      }
+    const verified = safeGetStoredWaitlist();
+    if (verified && verified.queueNumber) {
+      setQueueNumber(verified.queueNumber);
+      setFormData(verified);
+      setIsSubmitted(true);
     }
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
+    setRateLimitWait(null);
 
-    // Basic Validation
-    if (!formData.fullName.trim()) {
-      setErrorMsg('Please enter your full name.');
+    // 1. Bot Honeypot check: If the hidden honeypot field is filled, silently discard
+    if (honeypot && honeypot.trim().length > 0) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        setIsSubmitted(true);
+        setQueueNumber(404);
+      }, 800);
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email.trim() || !emailRegex.test(formData.email)) {
-      setErrorMsg('Please enter a valid email address.');
+    // 2. Client-side Rate Limiting: Prevent automated loops & form flooding
+    const rateCheck = checkRateLimit();
+    if (!rateCheck.allowed) {
+      setRateLimitWait(rateCheck.waitSeconds || 30);
+      setErrorMsg(
+        `Too many submission attempts. Please wait ${rateCheck.waitSeconds || 30}s before trying again.`
+      );
       return;
     }
 
+    // 3. Strict Name Validation & Sanitization
+    const nameCheck = validateHumanName(formData.fullName);
+    if (!nameCheck.valid) {
+      setErrorMsg(nameCheck.error || 'Invalid name provided.');
+      return;
+    }
+
+    // 4. Strict Email Validation
+    const emailCheck = validateEmail(formData.email);
+    if (!emailCheck.valid) {
+      setErrorMsg(emailCheck.error || 'Invalid email address provided.');
+      return;
+    }
+
+    // Record submission attempt in rate limiter
+    recordAttempt();
     setIsLoading(true);
 
-    // Simulate API delay
+    // Sanitize before storing
+    const safeName = sanitizeInput(formData.fullName, 60);
+    const safeEmail = sanitizeInput(formData.email.trim().toLowerCase(), 100);
+
+    // Simulate secure submission
     setTimeout(() => {
       setIsLoading(false);
       const randomQueue = Math.floor(Math.random() * 80) + 215;
       setQueueNumber(randomQueue);
       setIsSubmitted(true);
 
-      // Save to localStorage
-      localStorage.setItem(
-        'eduvia_waitlist_user',
-        JSON.stringify({ ...formData, queueNumber: randomQueue, joinedAt: new Date().toISOString() })
-      );
+      const safePayload = {
+        fullName: safeName,
+        email: safeEmail,
+        exam: formData.exam,
+        targetYear: formData.targetYear,
+        currentClass: formData.currentClass,
+        queueNumber: randomQueue,
+        joinedAt: new Date().toISOString()
+      };
+
+      try {
+        localStorage.setItem('eduvia_waitlist_user', JSON.stringify(safePayload));
+      } catch {
+        // Storage failure fallback
+      }
 
       // Trigger Celebration Confetti
       try {
@@ -85,15 +131,20 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
           colors: ['#6366F1', '#8B5CF6', '#10B981', '#38BDF8']
         });
       } catch {
-        // canvas-confetti fallback
+        // confetti fallback
       }
-    }, 1000);
+    }, 900);
   };
 
   const handleReset = () => {
-    localStorage.removeItem('eduvia_waitlist_user');
+    try {
+      localStorage.removeItem('eduvia_waitlist_user');
+    } catch {
+      // ignore
+    }
     setIsSubmitted(false);
     setQueueNumber(null);
+    setErrorMsg(null);
     setFormData({
       fullName: '',
       email: '',
@@ -130,6 +181,12 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
 
         {/* Waitlist Box */}
         <div className="rounded-3xl bg-[#0D1324] border border-white/10 p-6 sm:p-10 shadow-2xl relative">
+          {/* Security Badge in Card Corner */}
+          <div className="absolute top-4 right-4 hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/90 border border-emerald-500/20 text-[11px] text-emerald-400 font-medium">
+            <Lock className="w-3 h-3 text-emerald-400" />
+            <span>Rate-Limited & Sanitized</span>
+          </div>
+
           {isSubmitted ? (
             /* Success State */
             <div className="text-center py-6 space-y-6">
@@ -170,9 +227,23 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
             </div>
           ) : (
             /* Registration Form */
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+              {/* Invisible Honeypot field to trap automated bots & scripts */}
+              <div style={{ display: 'none', opacity: 0, position: 'absolute', left: '-9999px' }} aria-hidden="true">
+                <label htmlFor="company_trap">Leave this blank</label>
+                <input
+                  type="text"
+                  id="company_trap"
+                  name="company_trap"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
+              </div>
+
               {errorMsg && (
-                <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center gap-2.5 text-xs text-rose-300">
+                <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center gap-2.5 text-xs text-rose-300 animate-fadeIn">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>{errorMsg}</span>
                 </div>
@@ -188,11 +259,13 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
                     id="fullName"
                     type="text"
                     required
+                    maxLength={60}
                     placeholder="e.g. Shaikh Sohail"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-[#090D18] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
                   />
+                  <span className="text-[10px] text-slate-500 mt-1 block">Max 60 characters · Alphabets and spaces only</span>
                 </div>
 
                 {/* Email */}
@@ -204,11 +277,13 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
                     id="email"
                     type="email"
                     required
+                    maxLength={100}
                     placeholder="e.g. aspirant@gmail.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-[#090D18] border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
                   />
+                  <span className="text-[10px] text-slate-500 mt-1 block">Valid RFC 5322 format required</span>
                 </div>
               </div>
 
@@ -288,14 +363,16 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || rateLimitWait !== null}
                 className="w-full py-4 px-6 rounded-xl font-semibold text-white text-base bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:to-purple-500 shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    <span>Reserving Your Seat...</span>
+                    <span>Verifying & Securing Entry...</span>
                   </>
+                ) : rateLimitWait !== null ? (
+                  <span>Cooldown Active ({rateLimitWait}s)</span>
                 ) : (
                   <>
                     <span>Claim Free Early Beta Access</span>
@@ -306,11 +383,11 @@ export const EarlyAccess: React.FC<EarlyAccessProps> = ({ initialTrack }) => {
 
               <div className="flex flex-wrap items-center justify-between gap-2 pt-2 text-[11px] text-slate-400">
                 <span className="flex items-center gap-1.5">
-                  <Shield className="w-3.5 h-3.5 text-emerald-400" />
-                  Zero spam guarantee. Unsubscribe at any time.
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  Honeypot protected · Input sanitized against script & SQL injection
                 </span>
-                <span className="text-slate-500">
-                  Frontend prototype demonstration mode
+                <span className="text-slate-500 font-mono">
+                  Client-side rate limit: 3/min
                 </span>
               </div>
             </form>
